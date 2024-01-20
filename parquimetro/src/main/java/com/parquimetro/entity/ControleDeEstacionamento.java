@@ -1,14 +1,13 @@
-package com.parquimetro.model;
+package com.parquimetro.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "controle_estacionamento")
 public class ControleDeEstacionamento {

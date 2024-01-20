@@ -1,13 +1,12 @@
-package com.parquimetro.model;
+package com.parquimetro.entity;
 
+import com.parquimetro.dto.EnderecoDTO;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.UUID;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "endereco")
 public class Endereco {
@@ -36,7 +35,20 @@ public class Endereco {
     @Column(nullable = false)
     private String cep;
 
-    @ManyToOne
-    @JoinColumn(name = "condutor_id", nullable = false)
+    @OneToOne(mappedBy = "endereco", optional = false)
     private Condutor condutor;
+
+    public EnderecoDTO toDTO() {
+        return new EnderecoDTO(
+                this.getId(),
+                this.getLogradouro(),
+                this.getNumero(),
+                this.getComplemento(),
+                this.getBairro(),
+                this.getCidade(),
+                this.getEstado(),
+                this.getCep()
+        );
+    }
+
 }

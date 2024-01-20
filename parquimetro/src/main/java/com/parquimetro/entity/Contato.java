@@ -1,14 +1,13 @@
-package com.parquimetro.model;
+package com.parquimetro.entity;
 
 
+import com.parquimetro.dto.ContatoDTO;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.UUID;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "contato")
 public class Contato {
@@ -28,4 +27,13 @@ public class Contato {
     @ManyToOne
     @JoinColumn(name = "condutor_id", nullable = false)
     private Condutor condutor;
+
+    public ContatoDTO toDTO() {
+        return new ContatoDTO(
+                this.getId(),
+                this.getCodigoPais(),
+                this.getCodigoArea(),
+                this.getNumero()
+        );
+    }
 }
