@@ -1,4 +1,5 @@
 package com.parquimetro.entity;
+import com.parquimetro.dto.ControleDeEstacionamentoDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
@@ -6,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -14,10 +16,10 @@ public class ControleDeEstacionamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
 
     @Column(name = "hora_entrada", nullable = false)
-    private LocalDateTime horaEntrada;
+    private LocalDateTime horaEntrada = LocalDateTime.now();
 
     @Column(name = "hora_saida")
     private LocalDateTime horaSaida;
@@ -26,8 +28,19 @@ public class ControleDeEstacionamento {
     @Column(name = "tipo_cobranca", nullable = false)
     private String tipoCobranca; // Pode ser "fixa" ou "variavel"
 
-    @ManyToOne
-    @JoinColumn(name = "veiculo_id", nullable = false)
+    @OneToOne
     private Veiculo veiculoUtilizado;
 
+    public ControleDeEstacionamentoDTO toDTO(){
+        return new ControleDeEstacionamentoDTO(
+                this.getId(),
+                this.getHoraEntrada(),
+                this.getHoraSaida(),
+                this.getTipoCobranca(),
+                this.getVeiculoUtilizado().toDTO()
+        );
+    }
+
 }
+
+
