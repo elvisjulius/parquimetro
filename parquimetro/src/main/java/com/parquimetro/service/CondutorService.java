@@ -40,4 +40,9 @@ public class CondutorService {
         condutor = this.condutorRepository.saveAndFlush(condutor);
         return condutor.toDTO();
     }
+
+    public CondutorDTO findCondutorById(UUID id) {
+        Condutor condutor = this.condutorRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Não existe condutores cadastrados com esse ID"));
+        return condutor.toDTO();
+    }
 }

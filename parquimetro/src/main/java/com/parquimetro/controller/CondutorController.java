@@ -1,21 +1,27 @@
 package com.parquimetro.controller;
 
+import com.parquimetro.controller.exception.StardardError;
 import com.parquimetro.dto.CondutorDTO;
-import com.parquimetro.dto.ContatoDTO;
-import com.parquimetro.dto.EnderecoDTO;
 import com.parquimetro.dto.VeiculoDTO;
 import com.parquimetro.service.CondutorService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/condutor")
+@RequestMapping(value = "/condutor", produces = {"application/json"})
+@Tag(name = "Condutor")
 public class CondutorController {
     private final CondutorService condutorService;
 
@@ -25,23 +31,42 @@ public class CondutorController {
     }
 
     @PostMapping
+    @Operation(summary = "Registro de Condutores e Veículos", description = "Os condutores podem se registrar no sistema, associando seus dados pessoais, como nome, endereço e informações de contato.", method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cadastro do condutor realizado com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida", content = {@Content(schema = @Schema(implementation = StardardError.class))}),
+            @ApiResponse(responseCode = "400", description = "Parametros inválidos", content = {@Content(schema = @Schema(implementation = StardardError.class))}),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar a busca pelo condutor", content = {@Content(schema = @Schema(implementation = StardardError.class))})
+    })
     public ResponseEntity<CondutorDTO> save(@RequestBody @Valid CondutorDTO condutorDTO) {
         condutorDTO = this.condutorService.save(condutorDTO);
         return new ResponseEntity<>(condutorDTO, HttpStatus.CREATED);
     }
 
-    @PutMapping("vincularNovoVeiculo/{id}")
+    @GetMapping("{id}")
+    @Operation(summary = "Endpoint para buscar dados do condutor com base em um ID fornecido", description = "Esté metodo tem como finalidade permitir um condutor concultar suas informações cadastrais.", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Consulta do condutor realizado com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida", content = {@Content(schema = @Schema(implementation = StardardError.class))}),
+            @ApiResponse(responseCode = "400", description = "Parametros inválidos", content = {@Content(schema = @Schema(implementation = StardardError.class))}),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar a busca pelo condutor", content = {@Content(schema = @Schema(implementation = StardardError.class))})
+    })
+    public ResponseEntity<CondutorDTO> findCondutorById(@PathVariable UUID id) {
+        CondutorDTO condutorDTO = this.condutorService.findCondutorById(id);
+        return new ResponseEntity<>(condutorDTO, HttpStatus.CREATED);
+    }
+
+    @PutMapping("{id}/vincularNovoVeiculo")
+    @Operation(summary = "Registro de Veículos", description = "Um condutor pode vincular vários veículos à sua conta, facilitando o gerenciamento de múltiplos veículos", method = "PUT")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cadastro do condutor realizado com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida", content = {@Content(schema = @Schema(implementation = StardardError.class))}),
+            @ApiResponse(responseCode = "400", description = "Parametros inválidos", content = {@Content(schema = @Schema(implementation = StardardError.class))}),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar a busca pelo condutor", content = {@Content(schema = @Schema(implementation = StardardError.class))})
+    })
     public ResponseEntity<CondutorDTO> vincularNovoVeiculo(@PathVariable UUID id, @RequestBody @Valid VeiculoDTO veiculoDTO) {
         CondutorDTO condutorDTO = this.condutorService.vincularNovoVeiculo(id, veiculoDTO);
         return new ResponseEntity<>(condutorDTO, HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public ResponseEntity<CondutorDTO> findAll() {
-        EnderecoDTO enderecoDTO = new EnderecoDTO(null, "55642-835", "178", "A", "Nossa Senhora das Graças", "Gravatá", "PE", "55642-835");
-        ContatoDTO contatoDTO = new ContatoDTO(null, "55", "81", "99594-1472");
-        VeiculoDTO veiculoDTO = new VeiculoDTO(null, "MZS-9397");
-        CondutorDTO condutorDTO = new CondutorDTO(null, "Edson Theo Vinicius Lopes", enderecoDTO, List.of(contatoDTO), List.of(veiculoDTO));
-        return ResponseEntity.ok(condutorDTO);
-    }
 }

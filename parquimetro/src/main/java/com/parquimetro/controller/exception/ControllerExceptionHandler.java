@@ -1,5 +1,6 @@
 package com.parquimetro.controller.exception;
 
+import com.twilio.exception.ApiException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -65,6 +66,21 @@ public class ControllerExceptionHandler {
         standardError.setTimestamp(Instant.now());
         standardError.setStatus(HttpStatus.CONFLICT.value());
         standardError.setError("Já existe um registro com os mesmos dados. Por favor, verifique os dados e tente novamente.");
+        standardError.setMessage(errorMessage);
+        standardError.setPath(request.getDescription(false));
+
+        return ResponseEntity.status(status).body(standardError);
+    }
+
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<StardardError> numeroTelefoneException(ApiException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        String errorMessage = "Ocorreu um erro ao processar a solicitação.";
+
+        StardardError standardError = new StardardError();
+        standardError.setTimestamp(Instant.now());
+        standardError.setStatus(HttpStatus.CONFLICT.value());
+        standardError.setError("Numero de Telefone Invalido");
         standardError.setMessage(errorMessage);
         standardError.setPath(request.getDescription(false));
 
