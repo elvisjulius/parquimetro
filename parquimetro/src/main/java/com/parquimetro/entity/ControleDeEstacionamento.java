@@ -31,13 +31,16 @@ public class ControleDeEstacionamento {
     @OneToOne
     private Veiculo veiculoUtilizado;
 
+    private Boolean notificado = false;
+
     public ControleDeEstacionamentoDTO toDTO(){
         return new ControleDeEstacionamentoDTO(
                 this.getId(),
                 this.getHoraEntrada(),
                 this.getHoraSaida(),
                 this.getTipoCobranca(),
-                this.getVeiculoUtilizado().toDTO()
+                this.getVeiculoUtilizado().toDTO(),
+                this.getNotificado()
         );
     }
 

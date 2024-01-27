@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -44,5 +45,9 @@ public class CondutorService {
     public CondutorDTO findCondutorById(UUID id) {
         Condutor condutor = this.condutorRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Não existe condutores cadastrados com esse ID"));
         return condutor.toDTO();
+    }
+
+    public Condutor findByVeiculoId(UUID veiculoId){
+        return this.condutorRepository.findByVeiculoId(veiculoId).orElseThrow(() -> new RecordNotFoundException("Não existe condutores cadastrados com esse ID de veiculo"));
     }
 }
