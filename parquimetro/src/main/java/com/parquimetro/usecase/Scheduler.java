@@ -33,7 +33,7 @@ public class Scheduler {
        List<ControleDeEstacionamentoDTO> lista = controleDeEstacionamentoService.findAll();
 
         for (ControleDeEstacionamentoDTO dto : lista) {
-            if (dto.horaSaida() != null && !dto.notificado() && dto.horaSaida().isAfter(LocalDateTime.now())) {
+            if (dto.horaSaida() != null && !dto.notificado() && dto.horaSaida().isAfter(LocalDateTime.now().minusMinutes(10))) {
                 smsService.sendSms(condutorService.findByVeiculoId(dto.veiculos().id()).getContatos().toArray(new Contato[0]));
             }
         }
