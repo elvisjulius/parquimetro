@@ -31,7 +31,11 @@ public class ControleDeEstacionamento {
     @OneToOne
     private Veiculo veiculoUtilizado;
 
+    private String metodoPagamento; // Crédito,Débito ou Pix
+
     private Boolean notificado = false;
+
+    private Boolean pago = false;
 
     public ControleDeEstacionamentoDTO toDTO(){
         return new ControleDeEstacionamentoDTO(
@@ -40,6 +44,7 @@ public class ControleDeEstacionamento {
                 this.getHoraSaida(),
                 this.getTipoCobranca(),
                 this.getVeiculoUtilizado().toDTO(),
+                this.getMetodoPagamento(),
                 this.getNotificado()
         );
     }

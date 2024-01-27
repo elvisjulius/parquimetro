@@ -16,4 +16,7 @@ public interface CondutorRepository extends JpaRepository<Condutor, UUID> {
     @Query("SELECT c FROM Condutor c JOIN c.veiculos v WHERE v.id = :veiculoId")
     Optional<Condutor> findByVeiculoId(@Param("veiculoId") UUID veiculoId);
 
+    @Query("SELECT c FROM Condutor c JOIN c.veiculos v WHERE v.placa = :placa")
+    Optional<Condutor> findByVeiculoPlaca(@Param("placa") String placa);
+
 }
