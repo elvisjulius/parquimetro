@@ -5,13 +5,7 @@
                                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd"
         objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
 
-    <changeSet id="1705711131951-1"
-               author="igord (generated)">
-        <createSequence incrementBy="50"
-                        sequenceName="controle_estacionamento_seq"
-                        startValue="1"/>
-    </changeSet>
-    <changeSet id="1705711131951-2"
+    <changeSet id="1706546153551-1"
                author="igord (generated)">
         <createTable tableName="condutor">
             <column name="id"
@@ -28,7 +22,7 @@
                     type="UUID"/>
         </createTable>
     </changeSet>
-    <changeSet id="1705711131951-3"
+    <changeSet id="1706546153551-2"
                author="igord (generated)">
         <createTable tableName="contato">
             <column name="id"
@@ -55,11 +49,11 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="1705711131951-4"
+    <changeSet id="1706546153551-3"
                author="igord (generated)">
         <createTable tableName="controle_estacionamento">
             <column name="id"
-                    type="BIGINT">
+                    type="UUID">
                 <constraints nullable="false"
                              primaryKey="true"
                              primaryKeyName="pk_controle_estacionamento"/>
@@ -74,13 +68,17 @@
                     type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="veiculo_id"
-                    type="UUID">
-                <constraints nullable="false"/>
-            </column>
+            <column name="veiculo_utilizado_id"
+                    type="UUID"/>
+            <column name="metodo_pagamento"
+                    type="VARCHAR(255)"/>
+            <column name="notificado"
+                    type="BOOLEAN"/>
+            <column name="pago"
+                    type="BOOLEAN"/>
         </createTable>
     </changeSet>
-    <changeSet id="1705711131951-5"
+    <changeSet id="1706546153551-4"
                author="igord (generated)">
         <createTable tableName="endereco">
             <column name="id"
@@ -119,7 +117,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="1705711131951-6"
+    <changeSet id="1706546153551-5"
                author="igord (generated)">
         <createTable tableName="veiculo">
             <column name="id"
@@ -136,19 +134,19 @@
                     type="UUID"/>
         </createTable>
     </changeSet>
-    <changeSet id="1705711131951-7"
+    <changeSet id="1706546153551-6"
                author="igord (generated)">
         <addUniqueConstraint columnNames="endereco_id"
                              constraintName="uc_condutor_endereco"
                              tableName="condutor"/>
     </changeSet>
-    <changeSet id="1705711131951-8"
+    <changeSet id="1706546153551-7"
                author="igord (generated)">
         <addUniqueConstraint columnNames="placa"
                              constraintName="uc_veiculo_placa"
                              tableName="veiculo"/>
     </changeSet>
-    <changeSet id="1705711131951-9"
+    <changeSet id="1706546153551-8"
                author="igord (generated)">
         <addForeignKeyConstraint baseColumnNames="endereco_id"
                                  baseTableName="condutor"
@@ -156,7 +154,7 @@
                                  referencedColumnNames="id"
                                  referencedTableName="endereco"/>
     </changeSet>
-    <changeSet id="1705711131951-10"
+    <changeSet id="1706546153551-9"
                author="igord (generated)">
         <addForeignKeyConstraint baseColumnNames="condutor_id"
                                  baseTableName="contato"
@@ -164,15 +162,15 @@
                                  referencedColumnNames="id"
                                  referencedTableName="condutor"/>
     </changeSet>
-    <changeSet id="1705711131951-11"
+    <changeSet id="1706546153551-10"
                author="igord (generated)">
-        <addForeignKeyConstraint baseColumnNames="veiculo_id"
+        <addForeignKeyConstraint baseColumnNames="veiculo_utilizado_id"
                                  baseTableName="controle_estacionamento"
-                                 constraintName="FK_CONTROLE_ESTACIONAMENTO_ON_VEICULO"
+                                 constraintName="FK_CONTROLE_ESTACIONAMENTO_ON_VEICULO_UTILIZADO"
                                  referencedColumnNames="id"
                                  referencedTableName="veiculo"/>
     </changeSet>
-    <changeSet id="1705711131951-12"
+    <changeSet id="1706546153551-11"
                author="igord (generated)">
         <addForeignKeyConstraint baseColumnNames="condutor_id"
                                  baseTableName="veiculo"

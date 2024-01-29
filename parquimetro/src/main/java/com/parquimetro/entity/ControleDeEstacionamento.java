@@ -1,5 +1,7 @@
 package com.parquimetro.entity;
 import com.parquimetro.dto.ControleDeEstacionamentoDTO;
+import com.parquimetro.util.MetodoPagamento;
+import com.parquimetro.util.TipoCobranca;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
@@ -42,9 +44,9 @@ public class ControleDeEstacionamento {
                 this.getId(),
                 this.getHoraEntrada(),
                 this.getHoraSaida(),
-                this.getTipoCobranca(),
+                TipoCobranca.fromString(this.getTipoCobranca()),
                 this.getVeiculoUtilizado().toDTO(),
-                this.getMetodoPagamento(),
+                MetodoPagamento.fromString(this.getMetodoPagamento()),
                 this.getNotificado()
         );
     }

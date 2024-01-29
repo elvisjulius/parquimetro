@@ -6,7 +6,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@OpenAPIDefinition(info = @Info(title = "Swagger OpenApi", version = "1", description = "API desenvolvida para testes do OpenApi"))
+@OpenAPIDefinition(info = @Info(title = "Sistema de Parquímetro", version = "1", description = "O novo sistema de parquímetro foi projetado para lidar com a demanda crescente de estacionamento na\n" +
+		"cidade. Ele oferece funcionalidades tais, como registro de condutores e veículos, controle de tempo estacionado,\n" +
+		"opções flexíveis de pagamento e emissão de recibos."))
 
 public class ParquimetroApplication {
 

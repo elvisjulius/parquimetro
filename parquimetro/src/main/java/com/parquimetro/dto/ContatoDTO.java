@@ -1,6 +1,9 @@
 package com.parquimetro.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.parquimetro.entity.Contato;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -9,6 +12,8 @@ import jakarta.validation.constraints.Size;
 import java.util.UUID;
 
 public record ContatoDTO(
+        @Hidden
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         UUID id,
         @NotNull(message = "codigoPais não pode estar em nulo.")
         @NotBlank(message = "codigoPais não pode estar em Branco.")
