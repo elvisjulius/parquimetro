@@ -11,17 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.TimeZone;
 
 @Component
-public class Scheduler {
+public class SchedulerUseCase {
 
     private final ControleDeEstacionamentoService controleDeEstacionamentoService;
     private final SmsService smsService;
     private final CondutorService condutorService;
 
     @Autowired
-    public Scheduler(ControleDeEstacionamentoService controleDeEstacionamentoService, SmsService smsService, CondutorService condutorService) {
+    public SchedulerUseCase(ControleDeEstacionamentoService controleDeEstacionamentoService, SmsService smsService, CondutorService condutorService) {
         this.controleDeEstacionamentoService = controleDeEstacionamentoService;
         this.smsService = smsService;
         this.condutorService = condutorService;
@@ -32,8 +31,15 @@ public class Scheduler {
 
        List<ControleDeEstacionamentoDTO> lista = controleDeEstacionamentoService.findAll();
 
+
         for (ControleDeEstacionamentoDTO dto : lista) {
+            //comunica uma vez quem tem hora de saida agendada 10 minutos antes de vencer o prazo
             if (dto.horaSaida() != null && !dto.notificado() && dto.horaSaida().isAfter(LocalDateTime.now().minusMinutes(10))) {
+                smsService.sendSms(condutorService.findByVeiculoId(dto.veiculos().id()).getContatos().toArray(new Contato[0]));
+            }
+
+            //comunica uma vez quem não tem hora de saida agendada porém ja passou uma hora no estacionamento
+            if (dto.horaSaida() == null && !dto.notificado() && dto.horaEntrada().isAfter(LocalDateTime.now().plusHours(1))) {
                 smsService.sendSms(condutorService.findByVeiculoId(dto.veiculos().id()).getContatos().toArray(new Contato[0]));
             }
         }

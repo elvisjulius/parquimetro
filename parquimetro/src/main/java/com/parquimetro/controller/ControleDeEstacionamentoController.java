@@ -34,4 +34,9 @@ public class ControleDeEstacionamentoController {
 
         return ResponseEntity.ok(this.controleDeEstacionamentoService.buscaControleEstacionamento(id));
     }
+
+    @GetMapping("/cobrar/{placaVeiculo}")
+    public ResponseEntity<ReciboDeEstacionamentoDTO> cobrar(@PathVariable String placaVeiculo){
+        return ResponseEntity.ok(this.controleDeEstacionamentoService.cobrar(placaVeiculo));
+    }
 }

@@ -50,4 +50,8 @@ public class CondutorService {
     public Condutor findByVeiculoId(UUID veiculoId){
         return this.condutorRepository.findByVeiculoId(veiculoId).orElseThrow(() -> new RecordNotFoundException("Não existe condutores cadastrados com esse ID de veiculo"));
     }
+
+    public Condutor findByVeiculoPlaca(String veiculoPlaca){
+        return this.condutorRepository.findByVeiculoPlaca(veiculoPlaca).orElseThrow(() -> new RecordNotFoundException("Não existe condutores cadastrados com essa placa de veiculo"));
+    }
 }

@@ -22,6 +22,8 @@ public record ControleDeEstacionamentoDTO(
         @NotEmpty(message = "Veiculos do Condutor não ser vazia")
         VeiculoDTO veiculos,
 
+        String metodoPagamento,
+
         Boolean notificado
 ) {
     public ControleDeEstacionamento toEntity() {
@@ -31,6 +33,7 @@ public record ControleDeEstacionamentoDTO(
         controleDeEstacionamento.setHoraSaida(this.horaSaida);
         controleDeEstacionamento.setTipoCobranca(this.tipoCobranca);
         controleDeEstacionamento.setVeiculoUtilizado(this.veiculos.toEntity());
+        controleDeEstacionamento.setMetodoPagamento(this.metodoPagamento);
         controleDeEstacionamento.setNotificado(this.notificado);
         return controleDeEstacionamento;
     }
