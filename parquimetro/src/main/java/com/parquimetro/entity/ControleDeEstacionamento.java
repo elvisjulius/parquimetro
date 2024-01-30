@@ -17,8 +17,8 @@ import java.util.UUID;
 public class ControleDeEstacionamento {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id = UUID.randomUUID();
 
     @Column(name = "hora_entrada", nullable = false)
     private LocalDateTime horaEntrada = LocalDateTime.now();

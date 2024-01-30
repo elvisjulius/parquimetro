@@ -6,6 +6,7 @@ import com.parquimetro.dto.VeiculoDTO;
 import com.parquimetro.entity.Condutor;
 import com.parquimetro.entity.Veiculo;
 import com.parquimetro.repository.CondutorRepository;
+import com.parquimetro.repository.VeiculoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,17 +18,18 @@ import java.util.UUID;
 public class CondutorService {
     private final CondutorRepository condutorRepository;
     private final SmsService smsService;
+    private final VeiculoRepository veiculoRepository;
 
     @Autowired
-    public CondutorService(CondutorRepository condutorRepository, SmsService smsService) {
+    public CondutorService(CondutorRepository condutorRepository, SmsService smsService, VeiculoRepository veiculoRepository) {
         this.condutorRepository = condutorRepository;
         this.smsService = smsService;
+        this.veiculoRepository = veiculoRepository;
     }
 
 
     @Transactional
     public CondutorDTO save(CondutorDTO condutorDTO) {
-        this.smsService.sendSms(condutorDTO.contatos().getFirst().toEntity());
         return this.condutorRepository.save(condutorDTO.toEntity()).toDTO();
     }
 
@@ -51,7 +53,7 @@ public class CondutorService {
         return this.condutorRepository.findByVeiculoId(veiculoId).orElseThrow(() -> new RecordNotFoundException("Não existe condutores cadastrados com esse ID de veiculo"));
     }
 
-    public Condutor findByVeiculoPlaca(String veiculoPlaca){
-        return this.condutorRepository.findByVeiculoPlaca(veiculoPlaca).orElseThrow(() -> new RecordNotFoundException("Não existe condutores cadastrados com essa placa de veiculo"));
+    public Veiculo findVeiculoByPlaca(String veiculoPlaca){
+        return this.veiculoRepository.findByPlaca(veiculoPlaca).orElseThrow(() -> new RecordNotFoundException("Não existe condutores cadastrados com essa placa de veiculo"));
     }
 }

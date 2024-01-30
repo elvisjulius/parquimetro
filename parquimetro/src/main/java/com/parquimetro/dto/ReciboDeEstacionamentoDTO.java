@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public record ReciboDeEstacionamentoDTO(
         LocalDateTime horaEntrada,
@@ -18,6 +19,21 @@ public record ReciboDeEstacionamentoDTO(
         String metodoPagamento,
 
         Double valorEstacionamento
-){
+) {
 
+    @Override
+    public String toString() {
+        return "*RECIBO* \n" +
+                "Hora de Entrada: " + formatarLocalDateTime(horaEntrada) +
+                "\nHora de Saida: " + formatarLocalDateTime(horaSaida) +
+                "\nTipo de Cobrança: " + tipoCobranca + '\'' +
+                "\nVeículo Utilizado: " + veiculos +
+                "\nForma de Pagamento: " + metodoPagamento + '\'' +
+                "\nValor do Estacionamento: R$" + valorEstacionamento ;
+    }
+
+    static String formatarLocalDateTime(LocalDateTime localDateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        return localDateTime.format(formatter);
+    }
 }

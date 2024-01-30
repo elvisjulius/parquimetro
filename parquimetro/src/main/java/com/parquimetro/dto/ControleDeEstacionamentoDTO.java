@@ -1,5 +1,6 @@
 package com.parquimetro.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.parquimetro.entity.Condutor;
 import com.parquimetro.entity.ControleDeEstacionamento;
 import com.parquimetro.util.MetodoPagamento;
@@ -17,26 +18,27 @@ import java.util.stream.Collectors;
 public record ControleDeEstacionamentoDTO(
         @Hidden
         UUID id,
+        @Hidden
         LocalDateTime horaEntrada,
         LocalDateTime horaSaida,
         @NotNull(message = "O tipo de cobrança deve ser 'FIXA' ou 'VARIAVEL")
         TipoCobranca tipoCobranca,
         @NotNull(message = "Veiculos do  Condutor não ser nulo")
-        @NotEmpty(message = "Veiculos do Condutor não ser vazia")
         VeiculoDTO veiculos,
-
+        @NotNull(message = "O forma de pagamento deve ser informada")
         MetodoPagamento metodoPagamento,
-
+        @Hidden
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         Boolean notificado
 ) {
     public ControleDeEstacionamento toEntity() {
         ControleDeEstacionamento controleDeEstacionamento = new ControleDeEstacionamento();
         controleDeEstacionamento.setId(this.id());
-        controleDeEstacionamento.setHoraEntrada(this.horaEntrada);
+        controleDeEstacionamento.setHoraEntrada(LocalDateTime.now());
         controleDeEstacionamento.setHoraSaida(this.horaSaida);
-        controleDeEstacionamento.setTipoCobranca(this.tipoCobranca.getDescricao());
+        controleDeEstacionamento.setTipoCobranca(this.tipoCobranca.getDescricao().toLowerCase());
         controleDeEstacionamento.setVeiculoUtilizado(this.veiculos.toEntity());
-        controleDeEstacionamento.setMetodoPagamento(this.metodoPagamento.getDescricao());
+        controleDeEstacionamento.setMetodoPagamento(this.metodoPagamento.getDescricao().toLowerCase());
         controleDeEstacionamento.setNotificado(this.notificado);
         return controleDeEstacionamento;
     }
