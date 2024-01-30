@@ -12,11 +12,9 @@ import java.util.UUID;
 
 public record VeiculoDTO(
         @Hidden
-        @JsonInclude(JsonInclude.Include.NON_NULL)
         UUID id,
         @Schema(example = "MHK-1072")
-        @NotNull(message = "placa do carro não pode estar em nulo.")
-        @NotBlank(message = "placa do carro não pode estar em Branco.")
+
         String placa
 ) {
     public Veiculo toEntity() {
@@ -24,5 +22,10 @@ public record VeiculoDTO(
         veiculo.setId(this.id());
         veiculo.setPlaca(this.placa());
         return veiculo;
+    }
+
+    @Override
+    public String toString() {
+        return "placa: " + placa;
     }
 }

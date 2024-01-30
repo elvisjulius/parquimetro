@@ -31,7 +31,11 @@ public class ControleDeEstacionamentoController {
     }
 
     @PostMapping
-    @Operation(summary = "Registro de Condutores e Veículos", description = "Os condutores podem se registrar no sistema, associando seus dados pessoais, como nome, endereço e informações de contato.", method = "POST")
+    @Operation(summary = "Resgitro de Entrada e Saída do Estacionamento", description = "Este endpoint registra a entrada do veículo, *PARA TESTAR A GERAÇÃO DO RECIBO, O ATRIBUTO horaSaida PODE SER INFORMADO.*\n" +
+            "O sistema permite iniciar o período de estacionamento, oferecendo opções de tempo fixo ou por hora.\n" +
+            "Para períodos fixos, o sistema requer que o condutor indique a duração desejada no momento do registro.\n" +
+            "Para períodos variáveis, o sistema inicia o tempo de estacionamento automaticamente.\n" +
+            "A opção PIX só está disponível para períodos de estacionamento fixos", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cadastro do condutor realizado com sucesso"),
             @ApiResponse(responseCode = "422", description = "Dados de requisição inválida", content = {@Content(schema = @Schema(implementation = StardardError.class))}),
@@ -45,7 +49,7 @@ public class ControleDeEstacionamentoController {
 
 
     @GetMapping("/{id}")
-    @Operation(summary = "Registro de Condutores e Veículos", description = "Os condutores podem se registrar no sistema, associando seus dados pessoais, como nome, endereço e informações de contato.", method = "GET")
+    @Operation(summary = "Busca Controle Estacionamento", description = "Este metodo retorna os dados do estacionamento e do veículo estacionado.", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cadastro do condutor realizado com sucesso"),
             @ApiResponse(responseCode = "422", description = "Dados de requisição inválida", content = {@Content(schema = @Schema(implementation = StardardError.class))}),
@@ -57,7 +61,7 @@ public class ControleDeEstacionamentoController {
     }
 
     @GetMapping("/cobrar/{placaVeiculo}")
-    @Operation(summary = "Registro de Condutores e Veículos", description = "Os condutores podem se registrar no sistema, associando seus dados pessoais, como nome, endereço e informações de contato.", method = "GET")
+    @Operation(summary = "Finalizar cobrança e Emitir Recibo", description = "Esse metodo, efetua a cobrança do estacionamento e emite o recibo", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cadastro do condutor realizado com sucesso"),
             @ApiResponse(responseCode = "422", description = "Dados de requisição inválida", content = {@Content(schema = @Schema(implementation = StardardError.class))}),

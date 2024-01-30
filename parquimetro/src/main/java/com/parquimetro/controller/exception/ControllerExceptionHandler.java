@@ -57,6 +57,17 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(code).body(this.stardardError);
     }
 
+    @ExceptionHandler(InvalidBusinessRules.class)
+    public ResponseEntity<StardardError> InvalidBusinessRules(InvalidBusinessRules err, HttpServletRequest httpServletRequest) {
+        HttpStatus code = HttpStatus.BAD_REQUEST;
+        stardardError.setTimestamp(Instant.now());
+        stardardError.setStatus(code.value());
+        stardardError.setError(err.getMessage());
+        stardardError.setMessage(err.getMessage());
+        stardardError.setPath(httpServletRequest.getRequestURI());
+        return ResponseEntity.status(code).body(this.stardardError);
+    }
+
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<StardardError> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request) {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;

@@ -35,12 +35,12 @@ public class SchedulerUseCase {
         for (ControleDeEstacionamentoDTO dto : lista) {
             //comunica uma vez quem tem hora de saida agendada 10 minutos antes de vencer o prazo
             if (dto.horaSaida() != null && !dto.notificado() && dto.horaSaida().isAfter(LocalDateTime.now().minusMinutes(10))) {
-                smsService.sendSms(condutorService.findByVeiculoId(dto.veiculos().id()).getContatos().toArray(new Contato[0]));
+                smsService.sendSms("Seu ticket de estacionamento expiram em 10 minutos, caso o pagamento não seja identificado, o tempo será renovado em mais uma hora",condutorService.findByVeiculoId(dto.veiculos().id()).getContatos().toArray(new Contato[0]));
             }
 
             //comunica uma vez quem não tem hora de saida agendada porém ja passou uma hora no estacionamento
             if (dto.horaSaida() == null && !dto.notificado() && dto.horaEntrada().isAfter(LocalDateTime.now().plusHours(1))) {
-                smsService.sendSms(condutorService.findByVeiculoId(dto.veiculos().id()).getContatos().toArray(new Contato[0]));
+                smsService.sendSms("Passaram-se 1h do veículo estacionado, o tempo será renovado em mais 1h", condutorService.findByVeiculoId(dto.veiculos().id()).getContatos().toArray(new Contato[0]));
             }
         }
 
