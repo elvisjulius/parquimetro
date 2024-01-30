@@ -31,7 +31,7 @@ public class ControleDeEstacionamentoController {
     }
 
     @PostMapping
-    @Operation(summary = "Resgitro de Entrada e Saída do Estacionamento", description = "Este endpoint registra a entrada do veículo, *PARA TESTAR A GERAÇÃO DO RECIBO, O ATRIBUTO horaSaida PODE SER INFORMADO.*\n" +
+    @Operation(summary = "Registro de Entrada e Saída do Estacionamento", description = "Este endpoint registra a entrada do veículo, *PARA TESTAR A GERAÇÃO DO RECIBO, O ATRIBUTO horaSaida PODE SER INFORMADO.*\n" +
             "O sistema permite iniciar o período de estacionamento, oferecendo opções de tempo fixo ou por hora.\n" +
             "Para períodos fixos, o sistema requer que o condutor indique a duração desejada no momento do registro.\n" +
             "Para períodos variáveis, o sistema inicia o tempo de estacionamento automaticamente.\n" +
